@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+*.env
+grafana/data/
+db/data/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.log
+*.pid
+revoke-public-dashboard*.log
+revoke-public-dashboard*.pid

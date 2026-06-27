@@ -1,0 +1,117 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "fieldConfig": {"defaults": {"decimals": 2, "unit": "watt"}, "overrides": []},
+      "gridPos": {"h": 4, "w": 8, "x": 0, "y": 0},
+      "id": 1,
+      "options": {"colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto"},
+      "pluginVersion": "11.1.0",
+      "targets": [{"datasource": {"type": "postgres", "uid": "timescaledb"}, "format": "time_series", "rawSql": "SELECT collected_at AS time, prod * 1000000 AS value FROM sen_readings WHERE $__timeFilter(collected_at) ORDER BY collected_at", "refId": "A"}],
+      "title": "Production",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "fieldConfig": {"defaults": {"decimals": 2, "unit": "watt"}, "overrides": []},
+      "gridPos": {"h": 4, "w": 8, "x": 8, "y": 0},
+      "id": 2,
+      "options": {"colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto"},
+      "pluginVersion": "11.1.0",
+      "targets": [{"datasource": {"type": "postgres", "uid": "timescaledb"}, "format": "time_series", "rawSql": "SELECT collected_at AS time, cons * 1000000 AS value FROM sen_readings WHERE $__timeFilter(collected_at) ORDER BY collected_at", "refId": "A"}],
+      "title": "Consumption",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "fieldConfig": {"defaults": {"decimals": 2, "unit": "watt"}, "overrides": []},
+      "gridPos": {"h": 4, "w": 8, "x": 16, "y": 0},
+      "id": 3,
+      "options": {"colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto"},
+      "pluginVersion": "11.1.0",
+      "targets": [{"datasource": {"type": "postgres", "uid": "timescaledb"}, "format": "time_series", "rawSql": "SELECT collected_at AS time, sold * 1000000 AS value FROM sen_readings WHERE $__timeFilter(collected_at) ORDER BY collected_at", "refId": "A"}],
+      "title": "Exchange Balance",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "fieldConfig": {"defaults": {"custom": {"drawStyle": "line", "fillOpacity": 12, "lineInterpolation": "linear", "lineWidth": 2, "pointSize": 5, "showPoints": "never", "spanNulls": false}, "decimals": 2, "unit": "watt"}, "overrides": []},
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 4},
+      "id": 4,
+      "options": {"legend": {"calcs": ["lastNotNull"], "displayMode": "table", "placement": "bottom", "showLegend": true}, "tooltip": {"mode": "multi", "sort": "none"}},
+      "targets": [{"datasource": {"type": "postgres", "uid": "timescaledb"}, "format": "time_series", "rawSql": "SELECT collected_at AS time, prod * 1000000 AS production, cons * 1000000 AS consumption, sold * 1000000 AS exchange_balance FROM sen_readings WHERE $__timeFilter(collected_at) ORDER BY collected_at", "refId": "A"}],
+      "title": "Production, Consumption, Exchange",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "fieldConfig": {"defaults": {"custom": {"drawStyle": "line", "fillOpacity": 35, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "showPoints": "never", "spanNulls": false, "stacking": {"group": "A", "mode": "normal"}}, "decimals": 2, "unit": "watt"}, "overrides": []},
+      "gridPos": {"h": 9, "w": 24, "x": 0, "y": 12},
+      "id": 5,
+      "options": {"legend": {"calcs": ["lastNotNull"], "displayMode": "table", "placement": "bottom", "showLegend": true}, "tooltip": {"mode": "multi", "sort": "none"}},
+      "targets": [{"datasource": {"type": "postgres", "uid": "timescaledb"}, "format": "time_series", "rawSql": "SELECT collected_at AS time, eolian * 1000000 AS wind, foto * 1000000 AS solar, ape * 1000000 AS hydro, nucl * 1000000 AS nuclear, gaze * 1000000 AS gas, carb * 1000000 AS coal, bmasa * 1000000 AS biomass FROM sen_readings WHERE $__timeFilter(collected_at) ORDER BY collected_at", "refId": "A"}],
+      "title": "Production Mix",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "fieldConfig": {"defaults": {"decimals": 1, "unit": "percent"}, "overrides": []},
+      "gridPos": {"h": 5, "w": 12, "x": 0, "y": 21},
+      "id": 6,
+      "options": {"colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto"},
+      "pluginVersion": "11.1.0",
+      "targets": [{"datasource": {"type": "postgres", "uid": "timescaledb"}, "format": "time_series", "rawSql": "SELECT collected_at AS time, CASE WHEN prod > 0 THEN ((eolian + foto + ape + bmasa) / prod) * 100 ELSE NULL END AS renewable_share FROM sen_readings WHERE $__timeFilter(collected_at) ORDER BY collected_at", "refId": "A"}],
+      "title": "Renewable Share",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "fieldConfig": {"defaults": {"decimals": 2, "unit": "watt"}, "overrides": []},
+      "gridPos": {"h": 5, "w": 12, "x": 12, "y": 21},
+      "id": 7,
+      "options": {"showHeader": true},
+      "targets": [{"datasource": {"type": "postgres", "uid": "timescaledb"}, "format": "table", "rawSql": "WITH latest AS (SELECT * FROM sen_readings ORDER BY collected_at DESC LIMIT 1) SELECT metric, value * 1000000 AS value FROM latest CROSS JOIN LATERAL (VALUES ('DOBR', dobr), ('DJER', djer), ('VARN', varn), ('KOZL1', kozl1), ('KOZL2', kozl2), ('PANCEVO21', pancevo21), ('UNGE', unge), ('MUKA', muka), ('BEKE1', beke1), ('SAND', sand), ('CHEF', chef), ('CHEA', chea), ('VULC', vulc)) AS x(metric, value) ORDER BY metric", "refId": "A"}],
+      "title": "Interconnections",
+      "type": "table"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 39,
+  "tags": ["energy", "romania", "transelectrica"],
+  "templating": {"list": []},
+  "time": {"from": "now-3h", "to": "now"},
+  "timepicker": {},
+  "timezone": "Europe/Bucharest",
+  "title": "Transelectrica SEN Overview",
+  "uid": "sen-overview",
+  "version": 1,
+  "weekStart": ""
+}
