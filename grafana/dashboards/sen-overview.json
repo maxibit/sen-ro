@@ -120,6 +120,18 @@
       "targets": [{"datasource": {"type": "postgres", "uid": "timescaledb"}, "format": "table", "rawSql": "WITH latest AS (SELECT * FROM sen_readings ORDER BY collected_at DESC LIMIT 1) SELECT metric, value * 1000000 AS value FROM latest CROSS JOIN LATERAL (VALUES ('DOBR', dobr), ('DJER', djer), ('VARN', varn), ('KOZL1', kozl1), ('KOZL2', kozl2), ('PANCEVO21', pancevo21), ('UNGE', unge), ('MUKA', muka), ('BEKE1', beke1), ('SAND', sand), ('CHEF', chef), ('CHEA', chea), ('VULC', vulc)) AS x(metric, value) ORDER BY metric", "refId": "A"}],
       "title": "Interconnections",
       "type": "table"
+    },
+    {
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "description": "Storage installations. Positive values indicate discharge into the grid; negative values indicate charging from the grid.",
+      "fieldConfig": {"defaults": {"custom": {"drawStyle": "line", "fillOpacity": 18, "lineInterpolation": "smooth", "lineWidth": 2, "pointSize": 5, "showPoints": "never", "spanNulls": false}, "decimals": 2, "unit": "watt"}, "overrides": [{"matcher": {"id": "byName", "options": "storage_discharge"}, "properties": [{"id": "color", "value": {"fixedColor": "#00f5d4", "mode": "fixed"}}]}, {"matcher": {"id": "byName", "options": "storage_charge"}, "properties": [{"id": "color", "value": {"fixedColor": "#ff2d95", "mode": "fixed"}}]}]},
+      "gridPos": {"h": 6, "w": 24, "x": 0, "y": 33},
+      "id": 9,
+      "options": {"legend": {"calcs": ["lastNotNull"], "displayMode": "table", "placement": "bottom", "showLegend": true}, "tooltip": {"mode": "multi", "sort": "none"}},
+      "pluginVersion": "11.1.0",
+      "targets": [{"datasource": {"type": "postgres", "uid": "timescaledb"}, "format": "time_series", "rawSql": "SELECT collected_at AS time, GREATEST(is_line, 0) * 1000000 AS storage_discharge, LEAST(is_line, 0) * 1000000 AS storage_charge FROM sen_readings WHERE $__timeFilter(collected_at) ORDER BY collected_at", "refId": "A"}],
+      "title": "Energy Storage",
+      "type": "timeseries"
     }
   ],
   "refresh": "1m",

@@ -13,6 +13,12 @@ The stack polls `https://transelectrica.ro/sen-filter` every 60 seconds, stores 
 
 Containers intentionally run with their image defaults in v1. This keeps deployment simple. Network exposure is still restricted: there are no host port mappings in `docker-compose.yml`.
 
+## Dashboard Preview
+
+![Grafana SEN dashboard overview](docs/grafana-dash-1.jpg)
+
+![Grafana SEN dashboard details](docs/grafana-dash-2.jpg)
+
 ## Setup
 
 Prerequisites:
@@ -46,18 +52,6 @@ Fill these values in `.env`:
 - `PUBLIC_DOMAIN`
 - `PUSHOVER_APP_TOKEN`
 - `PUSHOVER_USER_KEY`
-
-Use a tunnel token only, not the full Cloudflare install command. Correct:
-
-```dotenv
-CLOUDFLARE_TUNNEL_TOKEN=eyJhIjoi...
-```
-
-Incorrect:
-
-```dotenv
-CLOUDFLARE_TUNNEL_TOKEN=sudo cloudflared service install eyJhIjoi...
-```
 
 Start the stack:
 

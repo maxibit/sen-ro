@@ -11,3 +11,5 @@ __pycache__/
 *.pid
 revoke-public-dashboard*.log
 revoke-public-dashboard*.pid
+token
+project.md
